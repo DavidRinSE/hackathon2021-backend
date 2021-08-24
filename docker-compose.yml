@@ -1,0 +1,30 @@
+# docker-compose.yml
+
+version: "3.7"
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports: 
+      - '5432:5432'
+    volumes:
+      - data:/var/lib/postgresql/data
+      - ./db_setup/setup.sql:/docker-entrypoint-initdb.d/seed.sql
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: npm run dev
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@127.0.0.0:5432
+    depends_on:
+      - postgres
+    ports:
+      - '5000:5000'
+        
+volumes:
+  data:
