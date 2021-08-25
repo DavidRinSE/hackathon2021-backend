@@ -1,4 +1,3 @@
-import { create } from "domain";
 import db from "../models/index.js";
 
 const { dummy_table } = db;
