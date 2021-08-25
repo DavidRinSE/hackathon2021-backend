@@ -13,7 +13,7 @@ function initModels(sequelize) {
     const Provider = _provider(sequelize, DataTypes)
 
     Item.belongsTo(Location, {
-        foreignKey: 'lcoationId',
+        foreignKey: 'locationId',
         onDelete: 'CASCADE'
     })
     Item.belongsTo(Provider, {
