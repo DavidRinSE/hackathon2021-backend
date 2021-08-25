@@ -1,6 +1,8 @@
 import express from "express"
 import route from './src/routes/index.js'
 import db from "./src/models/index.js"
+import dotenv from "dotenv"
+dotenv.config()
 
 const app = express();
 
