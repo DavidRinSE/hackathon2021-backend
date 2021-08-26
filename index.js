@@ -13,7 +13,7 @@ route(app);
 
 db.sequelize.sync()
 
-const port = 5000;
+const port = process.env.PORT || 5000;
 console.log(process.env.DATABASE_URL)
 app.listen(port, () => {
   console.log('App is now running at port ', port)
