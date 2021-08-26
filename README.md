@@ -29,3 +29,18 @@ Express Sequelize Postgres stack created with this guide because it has been a v
  - GET: Get a list of items
      - Searching is available with query params
      - City search query: ?city=
+ - DELETE: Removes an Item after confirmed pickup
+     - Authenticated with bearer token from login endpoint
+     - Request body: {"itemId": int, "username": string}
+
+## /item/pending
+
+ - POST: Sets an item to pending pickup
+     - Authenticated with bearer token from login endpoint
+     - Request body: {"itemId": int, "username": string}
+
+## /item/cancelPending
+
+ - POST: Sets an item to not pending if canceled
+     - Authenticated with bearer token from login endpoint
+     - Request body: {"itemId": int, "username": string}

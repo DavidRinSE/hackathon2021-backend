@@ -14,6 +14,10 @@ export default (app) => {
 
     app.post('/item', ItemController.create)
     app.get('/item', ItemController.get)
+    app.delete('/item', ItemController.remove)
+
+    app.post('/item/pending', ItemController.pending)
+    app.post('/item/cancelPending', ItemController.cancelPending)
 
     app.all('*', (req, res) => res.status(200).send({
         message: 'Hello World!',

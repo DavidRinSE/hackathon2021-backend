@@ -61,5 +61,96 @@ export default {
                 message: "Could not perform operation at this time, kindly try again later - or try something different you may be totally wrong."
             })
         }
+    },
+    async pending(req, res) {
+        const {username, itemId} = req.body;
+        if(!username || !itemId) {
+            return res.status(400).send({
+                message: "Request body missing one of: username, itemId."
+            })
+        }
+        try {
+            const providerId = await testToken(req.headers.authorization, username)
+            if(!providerId) {
+                return res.status(400).send("Bad token")
+            }
+
+            const item = await Item.findOne({ where: {id: itemId}})
+            if(!item) {
+                return res.status(404).send("Could not find item with provided id")
+            }
+
+            await item.update({
+                pending: true
+            })
+            res.status(200).send({
+                message: "Success"
+            })
+        } catch (err) {
+            console.log(err);
+            return res.status(500).send({
+                message: "Could not perform operation at this time, kindly try again later - or try something different you may be totally wrong."
+            })
+        }
+    },
+    async cancelPending(req, res) {
+        const {username, itemId} = req.body;
+        if(!username || !itemId) {
+            return res.status(400).send({
+                message: "Request body missing one of: username, itemId."
+            })
+        }
+        try {
+            const providerId = await testToken(req.headers.authorization, username)
+            if(!providerId) {
+                return res.status(400).send("Bad token")
+            }
+
+            const item = await Item.findOne({ where: {id: itemId}})
+            if(!item) {
+                return res.status(404).send("Could not find item with provided id")
+            }
+
+            await item.update({
+                pending: false
+            })
+            res.status(200).send({
+                message: "Success"
+            })
+        } catch (err) {
+            console.log(err);
+            return res.status(500).send({
+                message: "Could not perform operation at this time, kindly try again later - or try something different you may be totally wrong."
+            })
+        }
+    },
+    async remove(req, res) {
+        const {username, itemId} = req.body;
+        if(!username || !itemId) {
+            return res.status(400).send({
+                message: "Request body missing one of: username, itemId."
+            })
+        }
+        try {
+            const providerId = await testToken(req.headers.authorization, username)
+            if(!providerId) {
+                return res.status(400).send("Bad token")
+            }
+
+            const item = await Item.findOne({ where: {id: itemId}})
+            if(!item) {
+                return res.status(404).send("Could not find item with provided id")
+            }
+
+            await item.destroy()
+            res.status(200).send({
+                message: "Success"
+            })
+        } catch (err) {
+            console.log(err);
+            return res.status(500).send({
+                message: "Could not perform operation at this time, kindly try again later - or try something different you may be totally wrong."
+            })
+        }
     }
 }
