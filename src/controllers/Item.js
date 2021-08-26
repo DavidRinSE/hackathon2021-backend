@@ -38,4 +38,28 @@ export default {
             })
         }
     },
+    async get(req, res){
+        const {city} = req.query
+        let locationSearch = {}
+        if(city) {
+            locationSearch = {city: city.toLowerCase()}
+        }
+        try {
+            const items = []
+            const itemsQuery = await Item.findAll(
+                {
+                    include: {model: Location, where: locationSearch
+                }
+            })
+            for(const item of itemsQuery) {
+                items.push(item['dataValues'])
+            }
+            return res.json(items)
+        } catch(err) {
+            console.log(err)
+            return res.status(500).send({
+                message: "Could not perform operation at this time, kindly try again later - or try something different you may be totally wrong."
+            })
+        }
+    }
 }

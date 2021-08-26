@@ -18,10 +18,10 @@ export default {
                 return res.status(400).send("Bad token")
             }
             const location = new Location({
-                streetAddress,
+                streetAddress: streetAddress.toLowerCase(),
                 zipCode: parseInt(zipCode),
-                city,
-                state,
+                city: city.toLowerCase(),
+                state: state.toLowerCase(),
                 providerId
             })
             const savedLocation = await location.save()
@@ -33,4 +33,24 @@ export default {
             })
         }
     },
+    async get(req, res) {
+        const {city} = req.query
+        let locationSearch = {}
+        if(city) {
+            locationSearch = {city: city.toLowerCase()}
+        }
+        try {
+            const locations = []
+            const locationsQuery = await Location.findAll({where: locationSearch})
+            for(const location of locationsQuery) {
+                locations.push(location['dataValues'])
+            }
+            return res.json(locations)
+        } catch(err) {
+            console.log(err)
+            return res.status(500).send({
+                message: "Could not perform operation at this time, kindly try again later - or try something different you may be totally wrong."
+            })
+        }
+    }
 }
